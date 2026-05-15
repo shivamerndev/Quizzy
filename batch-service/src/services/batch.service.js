@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
-import Batch from "../models/batch.model.js";
+import batchRepo from "../repository/batch.repo.js";
+
+
 
 /**
  * Create a new batch with unique name validation.
@@ -8,15 +10,15 @@ import Batch from "../models/batch.model.js";
  * @throws {Error} If batch name already exists
  */
 const createBatch = async (batchData) => {
-
-    const existingBatch = await Batch.findOne({ name: batchData.name, isDeleted: false });
+    const existingBatch = await batchRepo.findByName(batchData.name);
 
     if (existingBatch) {
         throw new Error('Batch name must be unique');
     }
 
-    return await Batch.create(batchData);
+    return await batchRepo.create(batchData);
 }
+
 
 
 /**
@@ -26,12 +28,11 @@ const createBatch = async (batchData) => {
  * @throws {Error} If ID is invalid or batch not found
  */
 const getBatchById = async (batchId) => {
-
     if (!mongoose.Types.ObjectId.isValid(batchId)) {
         throw new Error('Invalid batch ID');
     }
 
-    const batch = await Batch.findOne({ _id: batchId, isDeleted: false });
+    const batch = await batchRepo.findById(batchId);
     if (!batch) {
         throw new Error('Batch not found');
     }
@@ -39,13 +40,15 @@ const getBatchById = async (batchId) => {
 }
 
 
+
 /**
  * Retrieve all non-deleted batches.
  * @returns {Promise<Array>} Array of batch documents
  */
 const getAllBatches = async () => {
-    return await Batch.find({ isDeleted: false });
+    return await batchRepo.findAll();
 }
+
 
 
 /**
@@ -56,20 +59,18 @@ const getAllBatches = async () => {
  * @throws {Error} If ID is invalid or batch not found
  */
 const updateBatch = async (batchId, batchData) => {
-
     if (!mongoose.Types.ObjectId.isValid(batchId)) {
         throw new Error('Invalid batch ID');
     }
 
-    const batch = await Batch.findOne({ _id: batchId, isDeleted: false });
-
+    const batch = await batchRepo.findById(batchId);
     if (!batch) {
         throw new Error('Batch not found');
     }
 
-    Object.assign(batch, batchData);
-    return await batch.save();
+    return await batchRepo.update(batch, batchData);
 }
+
 
 
 /**
@@ -79,18 +80,14 @@ const updateBatch = async (batchId, batchData) => {
  * @throws {Error} If ID is invalid or batch not found
  */
 const deleteBatch = async (batchId) => {
-
     if (!mongoose.Types.ObjectId.isValid(batchId)) {
         throw new Error('Invalid batch ID');
     }
 
-    const batch = await Batch.findOne({ _id: batchId, isDeleted: false });
-
+    const batch = await batchRepo.findById(batchId);
     if (!batch) {
         throw new Error('Batch not found');
     }
 
-    batch.isDeleted = true;
-
-    return await batch.save();
+    return await batchRepo.softDelete(batch);
 }
