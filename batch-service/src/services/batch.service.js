@@ -138,3 +138,5 @@ export default {
     updateBatch,
     deleteBatch
 };
+
+export { createBatch, getBatchById, getAllBatches, updateBatch, deleteBatch };
