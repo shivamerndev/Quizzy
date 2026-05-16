@@ -131,7 +131,7 @@ const deleteBatch = async (batchId) => {
 
 
 
-export default {
+export {
     createBatch,
     getBatchById,
     getAllBatches,
@@ -139,4 +139,10 @@ export default {
     deleteBatch
 };
 
-export { createBatch, getBatchById, getAllBatches, updateBatch, deleteBatch };
+export default {
+    createBatch,
+    getBatchById,
+    getAllBatches,
+    updateBatch,
+    deleteBatch
+};
