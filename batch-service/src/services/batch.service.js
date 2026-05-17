@@ -92,7 +92,7 @@ export const updateBatch = async (batchId, payload) => {
 
     await findExistingBatch(batchId);
 
-    const updatePayload = {...payload};
+    const updatePayload = { ...payload };
 
     if (payload.name) {
 
@@ -127,6 +127,38 @@ export const deleteBatch = async (batchId) => {
         success: true,
         message: "Batch deleted successfully"
     };
+};
+
+export const bulkCreateBatches = async (batches, userId) => {
+
+    if (
+        !Array.isArray(batches) ||
+        !batches.length
+    ) {
+        throw new ApiError(
+            400,
+            "Batches data is required"
+        );
+    }
+
+    const normalizedBatches =
+        batches.map((batch) => ({
+            ...batch,
+            name: normalizeBatchName(batch.name),
+            description:
+                batch.description?.trim() || "",
+            createdBy: userId,
+        }));
+
+
+    for (const batch of normalizedBatches) {
+        await validateDuplicateBatchName(batch.name);
+    }
+
+
+    return await batchRepository.createMany(
+        normalizedBatches
+    );
 };
 
 export const addStudentToBatch = async (batchId, studentId) => {
