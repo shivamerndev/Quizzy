@@ -56,6 +56,9 @@ export const getQuestionById = async (id) => {
   return question;
 };
 
+// GET /questions?search=node&page=1&limit=2
+// GET /questions?subject=backend&difficulty=easy
+
 export const listQuestions = async (query) => {
   const filter = {};
 
