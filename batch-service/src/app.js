@@ -1,28 +1,12 @@
-<<<<<<< HEAD
-import express from "express"
-import morgan from "morgan"
-import cookieParser from "cookie-parser"
-import authRouter from "./routes/auth.routes.js"
-
-const app = express()
-
-app.use(express.json())
-app.use(morgan("dev"))
-app.use(cookieParser())
-
-
-app.use("/api/auth", authRouter)
-
-export default app
-=======
 import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import IndexRoutes from './routes/index.route.js';
-import { globalErrorHandler } from './middlewares/error.middleware.js';
+// import IndexRoutes from './routes/index.route.js';
+// import { globalErrorHandler } from './middlewares/error.middleware.js';
+import batchRoutes from './routes/batch.routes.js';
 
 
 const app = express();
@@ -70,9 +54,9 @@ app.get('/', (req, res)=>{
     res.end('Server is running...')
 });
 
-app.use('/api', IndexRoutes);
+// Routes
+app.use('/api/batches', batchRoutes);
 
-app.use(globalErrorHandler);
+// app.use(globalErrorHandler);
 
 export default app;
->>>>>>> dfb84492e962b8ae0649259916816f10d60ad178

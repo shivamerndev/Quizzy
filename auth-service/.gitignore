@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Dependencies
 node_modules/
 
@@ -74,3 +75,8 @@ ai-output/
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+=======
+node_modules
+.env
+logs
+>>>>>>> dfb84492e962b8ae0649259916816f10d60ad178
