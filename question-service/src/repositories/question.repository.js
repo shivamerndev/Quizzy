@@ -1,6 +1,4 @@
 import QuestionModel from "../models/question.model.js";
-import { CreateQuestionSchema } from "../validators/question.validation.js";
-
 
 export const normalizeQuestion = (data) => {
   return {
