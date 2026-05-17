@@ -3,12 +3,14 @@ import asyncHandler from "../utils/asyncHandler.js";
 import { successResponse } from "../utils/response.js";
 
 export const createQuestionController = asyncHandler(async (req, res) => {
-  const question = await QuestionService.createQuestion(req.body);
+  const payload = { ...req.body, createdBy: req.user.id };
+  const question = await QuestionService.createQuestion(payload);
   return successResponse(res, "Question created successfully", question);
 });
 
 export const bulkCreateQuestionsController = asyncHandler(async (req, res) => {
-  const result = await QuestionService.bulkCreateQuestions(req.body);
+  const payload = req.body.map(q => ({ ...q, createdBy: req.user.id }));
+  const result = await QuestionService.bulkCreateQuestions(payload);
   return successResponse(res, "Questions created successfully", result);
 });
 

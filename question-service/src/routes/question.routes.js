@@ -9,7 +9,7 @@ import {
   deleteQuestionController,
 } from "../controllers/question.controller.js";
 
-import { validate } from "../middlewares/validate.middleware.js";
+import { validate } from "../middlewares/zod.middleware.js";
 import { isAuthenticated } from "../middlewares/auth.middleware.js";
 import { authorize } from "../middlewares/role.middleware.js";
 

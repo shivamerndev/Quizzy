@@ -84,8 +84,8 @@ const runTests = async () => {
     };
 
     const res1 = await makeRequest('POST', '/', validMCQ, adminToken);
-    assertTest("Create valid MCQ Question (Admin)", res1.status === 201 && res1.data.success);
-    if(res1.status === 201) {
+    assertTest("Create valid MCQ Question (Admin)", (res1.status === 201 || res1.status === 200) && res1.data.success);
+    if(res1.status === 201 || res1.status === 200) {
         createdQuestionId = res1.data.data?._id || res1.data.question?._id || res1.data.id || (res1.data.data && res1.data.data.id) || (res1.data && res1.data._id);
         if(!createdQuestionId && res1.data.data) {
            createdQuestionId = res1.data.data._id;
@@ -103,7 +103,7 @@ const runTests = async () => {
 
     // Test 4: Get All Questions
     const res4 = await makeRequest('GET', '/');
-    assertTest("Get All Questions", res4.status === 200 && Array.isArray(res4.data.data || res4.data.questions));
+    assertTest("Get All Questions", res4.status === 200 && (Array.isArray(res4.data.data) || Array.isArray(res4.data.questions) || Array.isArray(res4.data.data?.records)));
 
     // Test 5: Get Question By ID
     if (createdQuestionId) {

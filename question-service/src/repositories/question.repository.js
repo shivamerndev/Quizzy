@@ -9,7 +9,9 @@ export const normalizeQuestion = (data) => {
     topic: data.topic?.trim(),
     explanation: data.explanation?.trim() || "",
 
-    options: Array.isArray(data.options)
+    options: data.options === undefined
+      ? undefined
+      : Array.isArray(data.options)
       ? data.options
           .filter((opt) => opt?.optionId && opt?.text)
           .map((opt) => ({

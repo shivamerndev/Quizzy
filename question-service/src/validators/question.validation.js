@@ -50,6 +50,8 @@ const baseQuestionSchema = z.object({
   aiGenerated: z.boolean().default(false),
 
   isActive: z.boolean().default(true),
+  
+  createdBy: z.string().trim().optional(),
 });
 
 

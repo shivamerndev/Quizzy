@@ -103,8 +103,13 @@ export const updateQuestion = async (id, payload) => {
   if (!existing) throw new ApiError(404, "Not found");
 
   const cleaned = QuestionRepo.removeEmptyFields(QuestionRepo.normalizeQuestion(payload));
+  const existingObj = existing.toObject();
+  if (existingObj.createdBy) {
+      existingObj.createdBy = existingObj.createdBy.toString();
+  }
+
   const parsed = CreateQuestionSchema.safeParse({
-    ...existing.toObject(),
+    ...existingObj,
     ...cleaned,
   });
 
