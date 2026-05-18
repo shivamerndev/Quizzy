@@ -1,3 +1,20 @@
+<<<<<<< HEAD
+import express from "express"
+import morgan from "morgan"
+import cookieParser from "cookie-parser"
+import authRouter from "./routes/auth.routes.js"
+
+const app = express()
+
+app.use(express.json())
+app.use(morgan("dev"))
+app.use(cookieParser())
+
+
+app.use("/api/auth", authRouter)
+
+export default app
+=======
 import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
@@ -6,6 +23,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import IndexRoutes from './routes/index.route.js';
 import { globalErrorHandler } from './middlewares/error.middleware.js';
+import CONFIG from './configs/env.config.js';
 
 
 const app = express();
@@ -18,7 +36,7 @@ app.use(compression());
 
 // CORS configuration for frontend
 app.use(cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: CONFIG.FRONTEND_URL || 'http://localhost:5173',
     credentials: true
 }));
 
@@ -58,3 +76,4 @@ app.use('/api', IndexRoutes);
 app.use(globalErrorHandler);
 
 export default app;
+>>>>>>> dfb84492e962b8ae0649259916816f10d60ad178
